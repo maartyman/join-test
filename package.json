@@ -1,0 +1,20 @@
+{
+  "name": "join-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npx tsc",
+    "start": "node main.js",
+    "build-start": "npx tsc && node main.js",
+    "build-start-threaded": "npx tsc && node mainAsThread.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/seedrandom": "^3.0.5",
+    "typescript": "^5.0.4"
+  }
+}
