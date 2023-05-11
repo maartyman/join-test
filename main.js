@@ -25,11 +25,13 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const types_1 = require("./types");
 const two_hash_func_1 = require("./two-hash-func");
+const two_hash_func_dict_1 = require("./two-hash-func-dict");
 const random_1 = require("./random");
 const InnerLoop_1 = require("./InnerLoop");
 const process = __importStar(require("process"));
 const indexHashFunction_1 = require("./indexHashFunction");
 const indexHashFunctionCount_1 = require("./indexHashFunctionCount");
+const indexObjectFunctionCount_1 = require("./indexObjectFunctionCount");
 const { parentPort, isMainThread } = require('node:worker_threads');
 function test(ratio, elements, numberLeft, numberRight, joinIteratorString, message) {
     let leftVariables = ["x", "y", "z"];
@@ -113,14 +115,20 @@ function test(ratio, elements, numberLeft, numberRight, joinIteratorString, mess
         case "TwoHash":
             joinIterator = two_hash_func_1.TwoHash;
             break;
+        case "TwoHashObject":
+            joinIterator = two_hash_func_dict_1.TwoHashObject;
+            break;
         case "TwoHashIndexed":
             joinIterator = indexHashFunction_1.TwoHashIndexed;
             break;
         case "TwoHashIndexedCount":
             joinIterator = indexHashFunctionCount_1.TwoHashIndexedCount;
             break;
+        case "TwoObjectIndexedCount":
+            joinIterator = indexObjectFunctionCount_1.TwoObjectIndexedCount;
+            break;
         default:
-            joinIterator = InnerLoop_1.InnerLoop;
+            throw new Error("Join Algorithm " + joinIteratorString + " is not known!");
             break;
     }
     let join = new joinIterator(rightIterator, leftIterator, 0, 2);
@@ -201,7 +209,7 @@ if (isMainThread) {
      */
     //{ i: 2, j: 3, k: 4, joinOne: 9, joinTwo: 8 }
     //test(0.5,2,3,4, "TwoHash","");
-    test(0.5, 5, 30, 30, "TwoHashIndexedCount", "");
+    test(0.5, 5, 30, 30, "TwoHashDict", "");
     /*
     let temp = [];
     for (let i = 1; i < 10; i++) {

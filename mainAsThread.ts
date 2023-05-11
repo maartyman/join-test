@@ -1,4 +1,5 @@
 import {TwoHash} from "./two-hash-func";
+import {TwoHashObject} from "./two-hash-func-dict";
 import {TwoHashIndexed} from "./indexHashFunction";
 import {TwoHashIndexedCount} from "./indexHashFunctionCount";
 import {Worker} from "node:worker_threads";
@@ -36,10 +37,10 @@ async function start() {
     }
   ));
 
-  for (let number of [10_0000,100_000,200_000,500_000]) {
-    for (let elementsRatio of [0.01,0.25,0.5,0.75,0.09]) {
-      for (const ratio of [0.9]) {
-        for (const joinAlgorithm of ["TwoHash", "TwoHashIndexedCount"]) {
+  for (let number of [200_000]) {
+    for (let elementsRatio of [0.01,0.5,0.99]) {
+      for (const ratio of [0.1,0.5,0.9]) {
+        for (const joinAlgorithm of ["TwoObjectIndexedCount", "TwoHashIndexedCount"]) {
           while (numOfWorkers >= maxWorkers) {
             await new Promise<void>((resolve) => {
               waiter.once("update", () => {

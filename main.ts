@@ -1,10 +1,12 @@
 import {Binding, BindingIterator, Iterator, JoinIterator, Variables} from "./types";
 import {TwoHash} from "./two-hash-func";
+import {TwoHashObject} from "./two-hash-func-dict";
 import { Random } from "./random";
 import {InnerLoop} from "./InnerLoop";
 import * as process from "process";
 import {TwoHashIndexed} from "./indexHashFunction";
 import {TwoHashIndexedCount} from "./indexHashFunctionCount";
+import {TwoObjectIndexedCount} from "./indexObjectFunctionCount";
 const { parentPort, isMainThread} = require('node:worker_threads');
 
 function test(
@@ -121,14 +123,20 @@ function test(
     case "TwoHash":
       joinIterator = TwoHash
       break;
+      case "TwoHashObject":
+        joinIterator = TwoHashObject
+        break;
     case "TwoHashIndexed":
       joinIterator = TwoHashIndexed
       break;
     case "TwoHashIndexedCount":
       joinIterator = TwoHashIndexedCount
       break;
+    case "TwoObjectIndexedCount":
+        joinIterator = TwoObjectIndexedCount
+        break;
     default:
-      joinIterator = InnerLoop
+      throw new Error("Join Algorithm " + joinIteratorString + " is not known!")
       break;
   }
 
@@ -219,7 +227,7 @@ if (isMainThread) {
 
   //{ i: 2, j: 3, k: 4, joinOne: 9, joinTwo: 8 }
   //test(0.5,2,3,4, "TwoHash","");
-  test(0.5, 5, 30, 30, "TwoHashIndexedCount", "");
+  test(0.5, 5, 30, 30, "TwoHashDict", "");
 
   /*
   let temp = [];

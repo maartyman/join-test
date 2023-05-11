@@ -1,75 +1,61 @@
 "use strict";
-/*
-export type MapObject<T> = {
-  value: T;
-  count: number;
-}
-
-export class DualKeyHashMap<O> {
-  private readonly map = {};
-
-  constructor() {
-  }
-
-  set(mainKey: string, secondaryKey: string, value: O): void {
-    let mainMap = this.map[secondaryKey];
-    if (mainMap) {
-      let mapObject = mainMap.get(mainKey);
-      if (mapObject) {
-        mapObject.count++;
-      }
-      else {
-        mainMap.set(mainKey, {value: value, count: 1});
-      }
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.DualKeyObject = void 0;
+class DualKeyObject {
+    constructor() {
+        this.map = Object.create(null);
     }
-    else {
-      let newMap = {};
-      newMap[mainKey] = {value: value, count: 1};
-      this.map[secondaryKey] = newMap;
-    }
-  }
-
-  delete(mainKey: string, secondaryKey: string): boolean {
-    let mainMap = this.map.get(secondaryKey);
-    if (mainMap) {
-      let mapObject = mainMap.get(mainKey);
-      if (mapObject) {
-        if (mapObject.count > 1){
-          mapObject.count--;
-          return true;
+    set(mainKey, secondaryKey, value) {
+        let mainMap = this.map[secondaryKey];
+        if (mainMap !== undefined) {
+            let mapObject = mainMap[mainKey];
+            if (mapObject !== undefined) {
+                mapObject.count++;
+            }
+            else {
+                mainMap[mainKey] = { value: value, count: 1 };
+            }
         }
         else {
-          mainMap.delete(mainKey);
-          if (mainMap.size == 0) {
-            this.map.delete(secondaryKey);
-          }
-          return true;
+            let newMap = Object.create(null);
+            newMap[mainKey] = { value: value, count: 1 };
+            this.map[secondaryKey] = newMap;
         }
-      }
     }
-    return false;
-  }
-
-  get(mainKey: string, secondaryKey: string): MapObject<O> | undefined {
-    return this.map.get(secondaryKey)?.get(mainKey);
-  }
-
-  getAll(secondaryKey: string): IterableIterator<MapObject<O>> {
-    let mainMap = this.map.get(secondaryKey);
-    if (mainMap) {
-      return mainMap.values();
+    delete(mainKey, secondaryKey) {
+        let mainMap = this.map[secondaryKey];
+        if (mainMap !== undefined) {
+            let mapObject = mainMap[mainKey];
+            if (mapObject !== undefined) {
+                if (mapObject.count > 1) {
+                    mapObject.count--;
+                    return true;
+                }
+                else {
+                    delete mainMap[mainKey];
+                    if (mainMap.size === 0) {
+                        delete this.map[secondaryKey];
+                    }
+                    return true;
+                }
+            }
+        }
+        return false;
     }
-    return [][Symbol.iterator]();
-  }
-
-  forEach(secondaryKey: string, fn: (value: MapObject<O>, key: string, map: Map<string, MapObject<O>>, thisArg?: any) => void): void {
-    let mainMap = this.map.get(secondaryKey);
-    mainMap?.forEach(fn);
-  }
-
-  has(secondaryKey: string) : boolean {
-    return this.map.has(secondaryKey);
-  }
+    get(mainKey, secondaryKey) {
+        let mainMap = this.map[secondaryKey];
+        return (mainMap === undefined) ? undefined : mainMap[mainKey];
+    }
+    getAll(secondaryKey) {
+        let mainMap = this.map[secondaryKey];
+        if (mainMap !== undefined) {
+            return Object.values(mainMap);
+        }
+        return [];
+    }
+    has(secondaryKey) {
+        return this.map[secondaryKey] !== undefined;
+    }
 }
-*/
+exports.DualKeyObject = DualKeyObject;
 //# sourceMappingURL=DualKeyDict.js.map

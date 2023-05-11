@@ -59,10 +59,10 @@ function start() {
             }
             resolve();
         }));
-        for (let number of [100000, 100000, 200000, 500000]) {
-            for (let elementsRatio of [0.01, 0.25, 0.5, 0.75, 0.09]) {
-                for (const ratio of [0.9]) {
-                    for (const joinAlgorithm of ["TwoHash", "TwoHashIndexedCount"]) {
+        for (let number of [200000]) {
+            for (let elementsRatio of [0.01, 0.5, 0.99]) {
+                for (const ratio of [0.1, 0.5, 0.9]) {
+                    for (const joinAlgorithm of ["TwoObjectIndexedCount", "TwoHashIndexedCount"]) {
                         while (numOfWorkers >= maxWorkers) {
                             yield new Promise((resolve) => {
                                 waiter.once("update", () => {
